@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
+const functions = require('firebase-functions');
 
 const bodyParser = require('body-parser');
 require('dotenv').config();
@@ -77,7 +78,7 @@ app.get('/api/inventory/:id', (req, res) => {
 });
 
 app.post('/api/inventory', upload.single('image'), (req, res) => {
-  
+
   const category = String(req.body.category);
   const code = String(req.body.code);
   const description = String(req.body.description);
@@ -197,3 +198,5 @@ const port = process.env.PORT || 3005;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+exports.api = functions.https.onRequest(app);
